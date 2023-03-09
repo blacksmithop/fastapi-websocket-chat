@@ -1,0 +1,20 @@
+<!--Parent template--> 
+<html>
+  <head>
+    {% block head %}
+    <link
+      href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    <footer class="footer fixed-bottom mt-auto py-3 bg-dark">
+        <div class="container text-center">
+          <span class="text-light fs-5">Abhinav</span>
+        </div>
+    </footer>
+  </body>
+</html>
