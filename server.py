@@ -51,7 +51,7 @@ async def show_chatroom(request: Request):
 
 # session shenanigans
 @app.post("/create_session")
-async def create_session(response: Response, username:str = Form()):
+async def create_new_session(response: Response, username:str = Form()):
     """Set username for their session
     """
     session = uuid4()
@@ -73,7 +73,7 @@ async def whoami(session_data: SessionData = Depends(verifier)):
     return session_data
 
 @app.post("/delete_session")
-async def del_session(response: Response, session_id: UUID = Depends(cookie)):
+async def delete_current_session(response: Response, session_id: UUID = Depends(cookie)):
     """Deletes the current session
     """
     await backend.delete(session_id)
@@ -87,18 +87,19 @@ async def websocket_endpoint(websocket: WebSocket):
     await con_mgr.connect(websocket)
     try:
         while True:
-            data = await websocket.receive_text()
-            await websocket.send_text(f"Message text was: {data}")
+            data = await websocket.receive_json()
+            # await websocket.send_json(data)
+            await con_mgr.push(data)
     except WebSocketDisconnect:
         con_mgr.remove(websocket)
 
 
-@app.get("/push/{message}")
-async def push_to_connected_websockets(message: str):
-    """WIP (push notification)
-    """
-    await con_mgr.push(f"! Push notification: {message} !")
-
+# @app.post("/push/{username}/{message}/")
+# async def push_to_connected_websockets(username: str, message: str):
+#     """push notification/message send
+#     """
+#     await con_mgr.push({'message': message, 'username': username})
+#     return 200
 
 
 @app.on_event("startup")

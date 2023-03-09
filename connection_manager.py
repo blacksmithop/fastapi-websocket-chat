@@ -1,6 +1,7 @@
 from typing import List
 
 from starlette.websockets import WebSocket
+from json import dumps
 
 
 class ConnectionManager:
@@ -14,6 +15,7 @@ class ConnectionManager:
             await self._notify(message)
 
     async def push(self, msg: str):
+        # msg_data = dumps(msg)
         await self.generator.asend(msg) # type: ignore
 
     async def connect(self, websocket: WebSocket):
@@ -29,6 +31,6 @@ class ConnectionManager:
             # Looping like this is necessary in case a disconnection is handled
             # during await websocket.send_text(message)
             websocket = self.connections.pop()
-            await websocket.send_text(message)
+            await websocket.send_json(message)
             living_connections.append(websocket)
         self.connections = living_connections
