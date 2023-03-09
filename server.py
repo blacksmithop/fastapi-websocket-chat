@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, Request
+from fastapi import FastAPI, Form, Response, Request
 from starlette.websockets import WebSocket, WebSocketDisconnect
 
 from fastapi_sessions.frontends.implementations import SessionCookie, CookieParameters
@@ -10,8 +10,9 @@ from session_verifier import backend, SessionData, verifier
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from uuid import uuid4, UUID
+from starlette.responses import RedirectResponse
 
+from uuid import uuid4, UUID
 
 cookie_params = CookieParameters()
 
@@ -35,24 +36,35 @@ templates = Jinja2Templates(directory="templates")
 con_mgr = ConnectionManager() 
 
 
+@app.get("/")
+async def show_signup(request: Request):
+    """Returns the page where user sets their display name
+    """
+    return templates.TemplateResponse("signup.html", {"request": request})
+
 @app.get("/chat")
-async def get(request: Request):
+@app.post("/chat")
+async def show_chatroom(request: Request):
     """Returns the page where user sets their display name
     """
     return templates.TemplateResponse("chat.html", {"request": request})
 
 # session shenanigans
-@app.post("/create_session/{name}")
-async def create_session(name: str, response: Response):
+@app.post("/create_session")
+async def create_session(response: Response, username:str = Form()):
     """Set username for their session
     """
     session = uuid4()
-    data = SessionData(username=name)
+    data = SessionData(username=username)
 
     await backend.create(session, data)
     cookie.attach_to_response(response, session)
 
-    return f"created session for {name}"
+    print(f"created session for {username}")
+
+    url = app.url_path_for("show_chatroom")
+    response = RedirectResponse(url=url)
+    return response
 
 @app.get("/whoami", dependencies=[Depends(cookie)])
 async def whoami(session_data: SessionData = Depends(verifier)):

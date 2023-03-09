@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link
+href="{{ url_for('static', path='/css/signup.css') }}"
+rel="stylesheet"
+/>
+
+<script src="{{ url_for('static',path='/js/signup.js') }}"></script>
+
+{% endblock %}
+
+{% block body %}
+<form class="input-group rounded mx-auto" action="/create_session" method="POST">
+    <span class="input-group-text bg-warning" id="addon-wrapping"><i class="fa-solid fa-pen"></i></span>
+    <input
+      type="text"
+      class="form-control"
+      name="username"
+      placeholder="Enter a display name"
+      aria-label="Username
+      aria-describedby="addon-wrapping"
+    />
+      <button class="btn btn-success" type="submit" onclick="saveUsername()">
+      Go
+    </button>
+  </form>
+{% endblock %}

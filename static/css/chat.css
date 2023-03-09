@@ -13,3 +13,7 @@
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.blockquote-footer {
+  font-size: 1.00rem!important;
+}
