@@ -35,11 +35,11 @@ templates = Jinja2Templates(directory="templates")
 con_mgr = ConnectionManager() 
 
 
-@app.get("/")
+@app.get("/chat")
 async def get(request: Request):
     """Returns the page where user sets their display name
     """
-    return templates.TemplateResponse("signup.html", {"request": request})
+    return templates.TemplateResponse("chat.html", {"request": request})
 
 # session shenanigans
 @app.post("/create_session/{name}")

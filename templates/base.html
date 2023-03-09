@@ -7,10 +7,17 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>FastAPI Websocket Chat</title>
     {% endblock %}
   </head>
   <body>
-    {% block body %}{% endblock %}
+    <header class="fixed-top mt-auto bg-dark">
+        <div class="container-fluid text-center">
+    <p class="fs-3 text-center text-light">Websocket Chat Example</p>
+        </div>
+    </header>
+    {% block body %}
+    {% endblock %}
     <footer class="footer fixed-bottom mt-auto py-3 bg-dark">
         <div class="container text-center">
           <span class="text-light fs-5">Abhinav</span>
