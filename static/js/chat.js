@@ -3,11 +3,18 @@ let username = sessionStorage.getItem("username");
 // Websocket logic
 var ws = new WebSocket("ws://192.168.100.190/ws");
 
+// ws event logic
 ws.onmessage = function (event) {
-  data = JSON.parse(event.data)
+  data = JSON.parse(event.data);
 
-  console.log(data)
-  
+  console.log(data);
+
+  if (data.hasOwnProperty('message')) {
+    addNewMessage(data);
+  }
+};
+
+addNewMessage = (data) => {
   message = data.message;
   username = data.username;
 
@@ -19,9 +26,7 @@ ws.onmessage = function (event) {
   var chatWindow = document.getElementsByClassName("container")[0];
 
   // set username
-  newChat.querySelector(
-    "div.card-header > span"
-  ).innerText = `    ${username}`;
+  newChat.querySelector("div.card-header > span").innerText = `    ${username}`;
   // set message content
   newChat.querySelector("div.card-body > blockquote > p").innerText = message;
   // set timestamp
@@ -37,13 +42,20 @@ getTimestamp = () => {
   return now.format("HH:mm:ss");
 };
 
-
-
 function sendMessage() {
   // get message text
   let message = document.getElementsByClassName("message-input")[0].value;
   if (message != "") {
     // send to websocket
-    ws.send(JSON.stringify({"message": message, "username": username}));
+    ws.send(JSON.stringify({ message: message, username: username }));
   }
 }
+
+
+// toasts
+// let toastElList = document.querySelectorAll('.toast');
+// let toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option));
+
+// function welcomeToast() {
+//   toastList.forEach(toast => toast.show());
+// }
