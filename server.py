@@ -84,6 +84,7 @@ async def delete_current_session(response: Response, session_id: UUID = Depends(
 async def websocket_endpoint(websocket: WebSocket):
     """Prototype of a websocket connection to implement chat
     """
+    print(websocket)
     await con_mgr.connect(websocket)
     try:
         while True:
