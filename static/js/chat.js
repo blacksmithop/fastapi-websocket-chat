@@ -1,7 +1,9 @@
 let username = sessionStorage.getItem("username");
 
 // Websocket logic
-var ws = new WebSocket("ws://192.168.100.190/ws");
+var host = window.location.host; 
+
+var ws = new WebSocket(`ws://${host}/ws`);
 
 // ws event logic
 ws.onmessage = function (event) {

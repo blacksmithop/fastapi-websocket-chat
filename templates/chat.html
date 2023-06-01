@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% block head %} {{ super() }}
-<link href="{{ url_for('static', path='/css/chat.css') }}" rel="stylesheet" />
-<script src="{{ url_for('static',path='/js/chat.js') }}"></script>
+<!-- <link href="{{ url_for('static', path='/css/chat.css') }}" rel="stylesheet" />
+<script src="{{ url_for('static',path='/js/chat.js') }}"></script> -->
+<link href="static/css/chat.css" rel="stylesheet">
+<script src="static/js/chat.js"></script>
+
 <script src="https://momentjs.com/downloads/moment.js"></script>
 {% endblock %} {% block body %}
 <div class="container-fluid">
